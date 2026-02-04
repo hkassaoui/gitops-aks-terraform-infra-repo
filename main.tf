@@ -19,7 +19,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   default_node_pool {
     name       = "system"
     node_count = 1
-    vm_size    = var.vm_size  # Uses the VM size variable
+    vm_size    = var.vm_size # Uses the VM size variable
   }
 
   identity {
@@ -34,11 +34,22 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
 resource "azurerm_kubernetes_cluster_node_pool" "user_pool" {
   name                  = "userpool"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_cluster.id
-  vm_size               = var.vm_size  # Uses the same VM size variable
+  vm_size               = var.vm_size # Uses the same VM size variable
   node_count            = 1
   mode                  = "User"
 
   node_labels = {
     "nodepool-type" = "user-nodes"
+  }
+
+  tags = {
+    CostCenter         = "610"
+    Division           = "Quebec"
+    Criticality        = "Low"
+    DataClassification = "Internal"
+    Env                = "Test"
+    TechnicalContact   = "hichem.kassaoui@alithya.com"
+    WorkloadName       = "AppService"
+    demotag            = "refreshtest"
   }
 }
